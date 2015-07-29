@@ -13,6 +13,7 @@
     "stylus": "0.49.x"
   },
   "devDependencies": {
-    "jeet": "^6.1.2"
+    "jeet": "^6.1.2",
+    "roots": "^3.2.2"
   }
 }
