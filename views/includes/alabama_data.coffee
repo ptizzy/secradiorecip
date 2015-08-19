@@ -4,7 +4,8 @@ elements =
   schoolName: "alabama"
 
   footballInfo:
-    venueName: "Bryant-Denny Stadium, Tuscaloosa"
+    venueName: "Bryant-Denny Stadium"
+    venueCity: "Tuscaloosa"
     revisedInfo: "Verified by Tom Stipe 9/24/14"
 
     table:
@@ -30,7 +31,8 @@ elements =
       "Suggested FM Frequencies": "88.3, 89.7, 91.1, 93.5, 96.1, 100.3, 103.3, 105.1, 106.3, 107.3"
 
   basketballInfo:
-    venueName: "Coleman Coliseum, Tuscaloosa"
+    venueName: "Coleman Coliseum"
+    venueCity: "Tuscaloosa"
     revisedInfo: "Verified by Tom Stipe 1/6/2015"
 
     table:
@@ -47,7 +49,8 @@ elements =
       "Studio Number":            "phone(573-893-1955)"
 
   baseballInfo:
-    venueName: "Sewell-Thomas Stadium, Tuscaloosa"
+    venueName: "Sewell-Thomas Stadium"
+    venueCity: "Tuscaloosa"
     revisedInfo: "Verified by Tom Stipe 3/5/2013"
 
     table:

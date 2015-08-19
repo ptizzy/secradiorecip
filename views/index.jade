@@ -2,61 +2,143 @@ extends layout
 
 block content
 
-  div.nav-drawer.nav-drawer-left
-    ul
-      li: a(href='#', data-href="alabama.html") Alabama 
-      li: a(href='#', data-href="arkansas.html") Arkansas 
-      li: a(href='#', data-href="auburn.html") Auburn 
-      li: a(href='#', data-href="florida.html") Florida 
-      li: a(href='#', data-href="georgia.html") Georgia 
-      li: a(href='#', data-href="kentucky.html") Kentucky 
-      li: a(href='#', data-href="lsu.html") LSU 
-      li: a(href='#', data-href="olemiss.html") Ole Miss 
-      li: a(href='#', data-href="missstate.html") Mississippi State 
-      li: a(href='#', data-href="missouri.html") Missouri 
-      li: a(href='#', data-href="southcarolina.html") South Carolina 
-      li: a(href='#', data-href="tennessee.html") Tennessee 
-      li: a(href='#', data-href="texasaandm.html") Texas A&M 
-      li: a(href='#', data-href="vanderbilt.html") Vanderbilt 
+  -data = locals.data()
 
   .title-bar
-    h3 SEC Radio Info
+    #navDrawerBtn
+      i.icon.ion-navicon
+    img(src = '/img/sec_rr_logo-124x64.png').mainLogo
 
-    .heading 
-      .school-name Alabama
-      button.tab-btn Football
-      button.tab-btn Basketball
-      button.tab-btn Baseball
+    .school-name 
+
+    .tab-bar-container.hidden
+
+      button.tab-btn#tab-btn-football
+        i.icon.ion-ios-americanfootball
+        .text Football
+      button.tab-btn#tab-btn-basketball
+        i.icon.ion-ios-basketball
+        .text Basketball
+      button.tab-btn#tab-btn-baseball
+        i.icon.ion-ios-baseball
+        .text Baseball
+
+  div.nav-drawer.nav-drawer-left
+    ul
+      li 
+        .nav-item-container
+          .logo-container
+            .logo-alabama
+          a.nav-drawer-btn#nav-alabama Alabama 
+      li
+        .nav-item-container
+          .logo-container
+            .logo-arkansas
+          a.nav-drawer-btn#nav-arkansas Arkansas 
+      li
+        .nav-item-container
+          .logo-container
+            .logo-auburn
+          a.nav-drawer-btn#nav-auburn Auburn 
+      li
+        .nav-item-container
+          .logo-container
+            .logo-florida
+          a.nav-drawer-btn#nav-florida Florida 
+      li
+        .nav-item-container
+          .logo-container
+            .logo-georgia
+          a.nav-drawer-btn#nav-georgia Georgia 
+      li
+        .nav-item-container
+          .logo-container
+            .logo-kentucky
+          a.nav-drawer-btn#nav-kentucky Kentucky 
+      li
+        .nav-item-container
+          .logo-container
+            .logo-lsu
+          a.nav-drawer-btn#nav-lsu LSU 
+      li
+        .nav-item-container
+          .logo-container
+            .logo-olemiss
+          a.nav-drawer-btn#nav-olemiss Ole Miss 
+      li
+        .nav-item-container
+          .logo-container
+            .logo-missstate
+          a.nav-drawer-btn#nav-missstate Mississippi State 
+      li
+        .nav-item-container
+          .logo-container
+            .logo-missouri
+          a.nav-drawer-btn#nav-missouri Missouri 
+      li
+        .nav-item-container
+          .logo-container
+            .logo-southcarolina
+          a.nav-drawer-btn#nav-southcarolina South Carolina 
+      li
+        .nav-item-container
+          .logo-container
+            .logo-tennessee
+          a.nav-drawer-btn#nav-tennessee Tennessee 
+      li
+        .nav-item-container
+          .logo-container
+            .logo-texasaandm
+          a.nav-drawer-btn#nav-texasaandm Texas A&M 
+      li
+        .nav-item-container
+          .logo-container
+            .logo-vanderbilt
+          a.nav-drawer-btn#nav-vanderbilt Vanderbilt 
 
   section.main
+  
+    each schoolData in data
+      each sportInfo in [schoolData.footballInfo, schoolData.footballInfo2, schoolData.basketballInfo, schoolData.basketballInfo2, schoolData.baseballInfo, schoolData.baseballInfo2]
+        if sportInfo
+          -_id = ""
+          if sportInfo == schoolData.footballInfo
+            -_id = schoolData.schoolName + '-football-section'
+          else if sportInfo == schoolData.basketballInfo
+            -_id = schoolData.schoolName + '-basketball-section'
+          else if sportInfo == schoolData.baseballInfo
+            -_id = schoolData.schoolName + '-baseball-section'
+          .school-card-container(id='school-card-container-#{schoolData.schoolName}')
+            .school-card-section(class='#{schoolData.schoolName}', id=_id)
 
-    each data, school in locals.data()
-      each sportInfo in [data.footballInfo, data.basketballInfo, data.baseballInfo]
-        .school-card
-          .school-card-header(class="#{data.schoolName}-color")
-            if sportInfo.revisedInfo
-              .revisionInfo #{sportInfo.revisedInfo}
-            if sportInfo.venueName
-              .venueName #{sportInfo.venueName}
+              .school-card
+                .school-card-header(class="#{schoolData.schoolName}-color")
+                  if sportInfo.venueName
+                    .venueNameAndCity
+                      .venueName #{sportInfo.venueName}
+                      if sportInfo.venueCity
+                        .venueCity #{sportInfo.venueCity}
+                  if sportInfo.revisedInfo
+                    .revisionInfo #{sportInfo.revisedInfo}
 
-          .school-card-table
-            if sportInfo.table
-              ul
-                each val, title in sportInfo.table
-                  li
-                    if title.indexOf("header") == 0
-                      .table.content.table-header #{val}
-                    else if Array.isArray(val)
-                      each line, index in val
-                        if index == 0
-                          .table-content.table-title #{title}
-                        else
-                          .table-content.table-title.blank
-                        mixin parseTableData(line)
-                    else
-                      .table-content.table-title #{title}
-                      mixin parseTableData(val)
-
+                .school-card-table
+                  if sportInfo.table
+                    ul
+                      each val, title in sportInfo.table
+                        li
+                          .table-row-container
+                            if title.indexOf("header") == 0
+                              .table-content.table-header #{val}
+                            else if Array.isArray(val)
+                              each line, index in val
+                                if index == 0
+                                  .table-content.table-title #{title}
+                                else
+                                  .table-content.table-title.blank
+                                +parseTableData(line)
+                            else
+                              .table-content.table-title #{title}
+                              +parseTableData(val)
 
 mixin parseTableData(data)
   if data.indexOf("phone(") > -1 && data.indexOf("email(") > -1
@@ -79,8 +161,8 @@ mixin parsePhoneNumbers(data)
   -prefixStr = data.substr(0, phoneNumIndex - 6)
   -phoneNumStr = data.substr(phoneNumIndex,(data.substr(phoneNumIndex).indexOf(")")))
   -suffixStr = data.substr(phoneNumIndex + phoneNumStr.length + 1)
-  |#{prefixStr} 
-  a(href="tel:#{phoneNumStr}") #{phoneNumStr}
+  | #{prefixStr} 
+  a.phoneNum(href="tel:#{phoneNumStr}") #{phoneNumStr}
   if suffixStr.indexOf("phone(") > -1
     if suffixStr.indexOf("email(") > -1
       if suffixStr.indexOf("email(") < suffixStr.indexOf("phone(")
@@ -92,7 +174,7 @@ mixin parsePhoneNumbers(data)
   else if suffixStr.indexOf("email(") > -1
     mixin parseEmailAddresses(suffixStr)
   else
-    |#{suffixStr}
+    | #{suffixStr}
   
 mixin parseEmailAddresses(data)
   -addrIndex = data.indexOf("email(") + 6
@@ -116,4 +198,3 @@ mixin parseEmailAddresses(data)
     mixin parsePhoneNumbers(suffixStr)
   else
     |#{suffixStr}
-  

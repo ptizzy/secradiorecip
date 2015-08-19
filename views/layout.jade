@@ -9,9 +9,10 @@ html
     //- uncomment if your site is responsive!
     meta(name="viewport" content="width=device-width, initial-scale=1")
     title= _path
+    link(rel = 'stylesheet', href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css")
     != css()
 
-  body
+  body.nav-collapsed.tab-bar-collapsed
     block content
 
     != js()

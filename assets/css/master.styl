@@ -4,13 +4,21 @@
 normalize-css()
 base()
 
+sec-blue = #004B8E
+sec-yellow = #FFD048
+
 // school colors
 alabama = #b50043
+arkansas = #9D2235
+auburn = #0c2340
 
 html, body
   height: 100%
 body
-  width: 100%
+  padding-left: 90px
+
+  +below(3)
+    padding-left: 0px
 
 h1,h2,h3,h4
   +tablet()
@@ -19,97 +27,224 @@ h1,h2,h3,h4
     fs: 1.6em
 
 .nav-drawer
-  transition: margin-left 0.5s ease
   background-color: black
-  width: 240px
-  height: 100%
-  float: left
-  padding-top: 40px
-  margin-right: 20px
-  overflow: hidden
-
-  +below(4)
-    transition: margin-left 0.5s ease
-    margin-left: -240px
+  width: 98px
+  position: fixed
+  left: 0
+  top: 108px
+  overflow-x: hidden
+  overflow-y: auto
+  transition: width 0.25s ease
 
   ul
     list-style-type: none
     list-style-position: outside
-    padding-left: 1.2em
+    padding-left: 0
+    margin-top: 0
+    width: 240px
+
 
     li a
+      display: block
       text-decoration: none
-      link: silver 'darken'
-      fs: 1.3em
+      link: silver 'glow'
+      fs: 1.2em
       font-weight: 500
-      line-height: 2em
+      vertically-align()
+      no-select()
+
+  +below(3)
+    width: 0px
+
+.nav-drawer.show-drawer
+  width: 240px
+
+.nav-drawer.swiping
+  transition: none
+
+body.tab-bar-collapsed .nav-drawer
+  top:72px
+
+li.hover a
+  color: sec-yellow
+
+.nav-item-container
+  display: block
+  height: 64px
+  padding-left: 12px
+  cf()
+
+  .logo-container
+    width: 72px
+    height: 64px
+    float: left
+    padding-right: 18px
+
+.nav-item-container a
+  link: silver 'glow'
+
+.nav-item-container:hover
+  background-color: rgba(0,75,142,.3)
 
 .title-bar
-  background-color: navy
-  margin: 0
+  position: fixed
+  top: 0px
+  left: 0px
+  height: 108px
+  width: 100%
+  background-color: sec-blue
   color: white
   line-height: 2em
+  transition: height 0.5s ease
 
-  h3
-    margin: 0
-
-.heading
-  .school-name
-    fs: 2em
-    line-height: 1.4em
-
-    +tablet()
-      fs: 2.2em
-    +mobile()
-      fs: 2.4em
-
-  .tab-btn
-    background-color: inherit
-    border: none
-    fs: 1.2em
-    padding: .5em .8em .5em .8em
-
-    +tablet()
-      fs: 1.2em
-    +mobile()
-      fs: 1.4em
-
-section.main
-  transition: all 0.5s ease
-  padding: 3em
-  margin-left: 240px
-  background-color: gray
-  overflow: auto
-  max-height: 100vh
-
-  +below(4)
-    transition: all 0.5s ease
+  +below(3)
     margin-left: 0px
 
+  .mainLogo
+    display: inline-block
+    position: absolute
+    margin: 4px 
+
+body.tab-bar-collapsed .title-bar
+  height: 72px
+
+#navDrawerBtn
+  size: 48px, 48px
+  margin: 12px 0px 12px 12px
+  display: inline-block
+  text-align: center
+
+  i
+    fs: 2.5em
+
+  +above(4)
+    display: none
+
+.school-name
+  display: inline-block
+  transition: transform 0.255s ease
+  text-align: center
+  fs: 2em
+  line-height: 1.4em
+  margin-top: 20px
+  align: horizontal
+
+  +below(2)
+    transition: transform 0.25s ease
+    left: auto
+    right: 2%
+    transform:
+      translateX(0%)
+
+.tab-bar-container
+  position: fixed
+  top: 72px
+  left: 0px
+  width: 100%
+  text-align: center
+  height: 36px
+  color: white
+
+  +below(3)
+    margin-left: 0px
+
+.tab-btn
+  background-color: inherit
+  border: none
+  height: 35px
+  fs: 1.2em
+  padding: 0em .8em 0em .8em
+  outline: none
+
+  i
+    padding-right: .3em
+    color: lightgray
+
+    +mobile()
+      padding-right: 1em
+
+  .text
+    display: inline-block
+    color: lightgray
+
+    +mobile()
+      display: none
+      
+.tab-btn.active
+  border-bottom: 4px solid sec-yellow
+
+  i
+    color: white
+
+  .text
+    color: white
+
+.tab-btn-left-spacer
+  margin-right: 40px
+
+section.main
+  background-color: #fafafa
+  overflow: auto
+  margin-top: 108px
+
+body.tab-bar-collapsed .main
+  margin-top: 72px
+
+.tab-bar-container.hidden
+  display: none
+
+.school-card-section
+  padding: 2em
+
+  +mobile()
+    padding: 1em
+
 .school-card
-  margin: 0 auto 3em auto
+  margin: 0 auto
   max-width: 900px
   background-color: white
   box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12)
+  overflow: hidden
+  border-radius: 2px
 
 .school-card-header
-  padding: 2em
+  height: 64px
   background-color: navy
   color: white
+  padding: .2em 2em .2em 2em
 
-.alabama-color
-  background-color: alabama 
-  
-  .revisionInfo
-    fs: .8em
-    float: right
+  +mobile()
+    padding: .1em 1em .1em 1em
+
+  .venueNameAndCity
+    col(2/3) 
 
   .venueName
     fs: 1.2em
+    padding-top: 12px
+
+    +below(3)
+      padding-top: 8px
+      fs: 1.1em
+
+  .venueCity
+    fs: 1em
+
+  .revisionInfo
+    fs: .8em
+    line-height: 1em
+    padding-top: 12px
+    col(1/3)
+
+    +below(3)
+      padding-top: 12px
 
 .school-card-table
   padding: 2em
   cf()
+
+  +mobile()
+    padding: 1em
 
   ul
     list-style-type: none
@@ -117,37 +252,128 @@ section.main
     padding-left: 0
     margin-top: 0
 
-  .table-content
-    padding: .6em
-    box-sizing: border-box
-
-    +tablet()
-      fs: 1.2em
-    +mobile()
-      fs: 1.2em
-      padding: .3em
-
   li:nth-child(odd)
-    .table-content
-      background-color: whitesmoke
+    background-color: whitesmoke
 
-  .table-header
-    bold()
-    padding: 1.2em 0 0 .6em
+.table-row-container
+  cf()
+  
+.table-content
+  padding: .6em
+  box-sizing: border-box
+
+  +tablet()
+    fs: 1em
+  +mobile()
+    fs: 1em
+    padding: .3em
+
+.table-header
+  bold()
+  span(1/1)
+  
+.table-title
+  span(2/5)
+  
+  +below(2)
     span(1/1)
 
-  .table-title
-    span(1/3)
+.table-title.blank
+  height: 2.4em
 
-    +mobile()
-      span(1/1)
+.table-data
+  span(3/5)
 
-  .table-title.blank
-    height: 2.4em
+  +below(2)
+    span(1/1)
+    padding-left: 2em
 
-  .table-data
-    span(2/3)
+.phoneNum
+  white-space: nowrap
 
-    +mobile()
-      span(1/1)
-      padding-left: 4em
+.alabama-color
+  background-color: alabama 
+.arkansas-color
+  background-color: arkansas 
+.auburn-color
+  background-color: auburn 
+.florida-color
+  background-color: florida 
+.georgia-color
+  background-color: georgia 
+.kentucky-color
+  background-color: kentucky 
+.lsu-color
+  background-color: lsu 
+.olemiss-color
+  background-color: olemiss 
+.missstate-color
+  background-color: missstate 
+.missouri-color
+  background-color: missouri 
+.southcarolina-color
+  background-color: southcarolina 
+.tennessee-color
+  background-color: tennessee 
+.texasaandm-color
+  background-color: texasaandm 
+.vanderbilt-color
+  background-color: vanderbilt 
+  
+
+.logo-alabama, .logo-arkansas, .logo-auburn, .logo-florida, .logo-georgia, .logo-kentucky, .logo-lsu, .logo-olemiss, .logo-missstate, .logo-missouri, .logo-southcarolina, .logo-tennessee, .logo-texasaandm, .logo-vanderbilt
+  background-image: url('../img/school_logo_sprite.png')
+  background-repeat: no-repeat
+  height: 56px
+  width: 72px
+  margin: auto
+  vertically-align()
+
+.logo-alabama
+  background-position: 0 0
+
+.logo-arkansas
+  height: 28px
+  background-position: -100px 0
+
+.logo-auburn
+  background-position: -200px 0
+
+.logo-florida
+  height: 41px
+  background-position: -300px 0
+
+.logo-georgia
+  height: 36px
+  background-position: -400px 0
+
+.logo-kentucky
+  height: 44px
+  background-position: -500px 0
+
+.logo-lsu
+  background-position: -600px 0
+
+.logo-olemiss
+  height: 26px
+  background-position: -700px 0
+
+.logo-missstate
+  height: 39px
+  background-position: 0 -100px
+
+.logo-missouri
+  height: 37px
+  background-position: -100px -100px
+
+.logo-southcarolina
+  background-position: -200px -100px
+
+.logo-tennessee
+  background-position: -300px -100px
+
+.logo-texasaandm
+  background-position: -400px -100px
+
+.logo-vanderbilt
+  background-position: -500px -100px

@@ -6,13 +6,13 @@ js_pipeline  = require 'js-pipeline'
 css_pipeline = require 'css-pipeline'
 
 module.exports =
-  ignores: ['readme.md', '**/layout.*', '**/_*', '**/*.swp', '**/*.*~', 'includes/*.*', '.gitignore', 'ship.*conf']
 
-  debug: true
+  ignores: ['readme.md', '**/layout.*', '**/_*', '**/*.swp', '**/*.*~', '**/includes/*.*', '**/templates/*.*', '.gitignore', 'ship.*conf']
+
 
   extensions: [
-    js_pipeline(files: 'assets/js/*.coffee'),
-    css_pipeline(files: 'assets/css/*.styl')
+    js_pipeline(files: ['assets/js/vendor/**', 'assets/js/main.coffee']),
+    css_pipeline(files: ['assets/css/vendor/**', 'assets/css/master.styl'])
   ]
 
   stylus:
@@ -20,15 +20,21 @@ module.exports =
     sourcemap: true
 
   'coffee-script':
+    #debug: true
     sourcemap: true
+
 
   jade:
     pretty: true
     data: ->
       elements = {}
-      sources = {'alabama': './views/includes/alabama_data'}
+      sources = {
+        'alabama': './views/includes/alabama_data',
+        'arkansas': './views/includes/arkansas_data',
+        'auburn': './views/includes/auburn_data'
+      }
+
       for name, data of sources
         _data = require data
         elements[name] = _data.elements
-        #elements[name] = JSON.stringify(_data.elements)
       return elements
