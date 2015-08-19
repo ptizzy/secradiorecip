@@ -1,0 +1,88 @@
+mixin parseTableData(data)
+  if data.indexOf("phone(") > -1 && data.indexOf("email(") > -1
+    .table-content.table-data 
+      if data.indexOf("phone(") < data.indexOf("email(")
+        mixin parsePhoneNumbers(data)
+      else
+        mixin parseEmailAddresses(data)
+  else if data.indexOf("phone(") > -1
+    .table-content.table-data 
+      mixin parsePhoneNumbers(data)
+  else if data.indexOf("email(") > -1
+    .table-content.table-data 
+      mixin parseEmailAddresses(data)
+  else if data.indexOf("phone(") == -1 && data.indexOf("email(") == - 1
+    .table-content.table-data #{data}
+
+mixin parsePhoneNumbers(data)
+  -phoneNumIndex = data.indexOf("phone(") + 6
+  -prefixStr = data.substr(0, phoneNumIndex - 6)
+  -phoneNumStr = data.substr(phoneNumIndex,(data.substr(phoneNumIndex).indexOf(")")))
+  -suffixStr = data.substr(phoneNumIndex + phoneNumStr.length + 1)
+  |#{prefixStr} 
+  a(href="tel:#{phoneNumStr}") #{phoneNumStr}
+  if suffixStr.indexOf("phone(") > -1
+    if suffixStr.indexOf("email(") > -1
+      if suffixStr.indexOf("email(") < suffixStr.indexOf("phone(")
+        mixin parseEmailAddresses(suffixStr)
+      else
+        mixin parsePhoneNumbers(suffixStr)
+    else
+      mixin parsePhoneNumbers(suffixStr)
+  else if suffixStr.indexOf("email(") > -1
+    mixin parseEmailAddresses(suffixStr)
+  else
+    |#{suffixStr}
+  
+mixin parseEmailAddresses(data)
+  -addrIndex = data.indexOf("email(") + 6
+  -prefixStr = data.substr(0, addrIndex - 6)
+  -addrStr = data.substr(addrIndex,(data.substr(addrIndex).indexOf(")")))
+  -suffixStr = data.substr(addrIndex + addrStr.length + 1)
+  |#{prefixStr} 
+  a(href="mailto:#{addrStr}") #{addrStr}
+  if suffixStr.indexOf("email(") > -1
+    mixin parseEmailAddresses(suffixStr)
+
+  if suffixStr.indexOf("email(") > -1
+    if suffixStr.indexOf("phone(") > -1
+      if suffixStr.indexOf("phone(") < suffixStr.indexOf("email(")
+        mixin parsePhoneNumbers(suffixStr)
+      else
+        mixin parseEmailAddresses(suffixStr)
+    else
+      mixin parseEmailAddresses(suffixStr)
+  else if suffixStr.indexOf("phone(") > -1
+    mixin parsePhoneNumbers(suffixStr)
+  else
+    |#{suffixStr}
+  
+-data = locals.elements
+
+each sportInfo in [data.footballInfo, data.footballInfo2, data.basketballInfo, data.basketballInfo2, data.baseballInfo, data.baseballInfo2]
+  if sportInfo
+    .school-card
+      .school-card-header(class="#{data.schoolName}-color")
+        if sportInfo.revisedInfo
+          .revisionInfo #{sportInfo.revisedInfo}
+        if sportInfo.venueName
+          .venueName #{sportInfo.venueName}
+
+      .school-card-table
+        if sportInfo.table
+          ul
+            each val, title in sportInfo.table
+              li
+                if title.indexOf("header") == 0
+                  .table.content.table-header #{val}
+                else if Array.isArray(val)
+                  each line, index in val
+                    if index == 0
+                      .table-content.table-title #{title}
+                    else
+                      .table-content.table-title.blank
+                    +parseTableData(line)
+                else
+                  .table-content.table-title #{title}
+                  +parseTableData(val)
+
